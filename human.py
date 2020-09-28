@@ -1,6 +1,7 @@
 from rule.GobangBase import *
 import RL.RLNet as RL
 import torch
+import RL.DataCreate as DC
 gobang = GobangForAI(15,15)
 net = RL.RLNet()
 print(net)
@@ -20,6 +21,9 @@ while gobang.gameover() == False:
 print(gobang.winner()+" win ")
 print(gobang.board_)
 print(x,y)
+dataCreator = DC.DataCreator()
+a,b,c,d = dataCreator.create(gobang)
+print(a,b,c,d)
 '''
 while board.gameover() == False:
     x =int(input("Please "+board.who_should_place()+" place x: "))
