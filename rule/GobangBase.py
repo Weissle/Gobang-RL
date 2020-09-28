@@ -24,6 +24,7 @@ class Gobang:
             self.winner_ = "Black"
 
     def check(self, x, y, chess):
+        
         up_x, down_x = x, x
         left_y, right_y = y, y
         lu_lx, lu_ly = x, y
@@ -54,23 +55,9 @@ class Gobang:
                 ru_ry += 1
         if down_x - up_x >= 6 or right_y - left_y >= 6 or lu_rx - lu_lx >= 6 or ru_lx - ru_rx >= 6:
             self.towin()
-        '''        
-        while up_x >= 0 and self.board_[up_x,y] == chess:
-            up_x -= 1
-        while down_x < self.x_len and self.board_[down_x,y] == chess:
-            down_x += 1
-        if down_x - up_x >= 4:
-            towin()
-            return
-        
-        while left_y>=0 and self.board_[x,left_y] == chess:
-            left_y -= 1
-        while right_y<self.y_len and self.board_[x,right_y] == chess:
-            right_y += 1
-        if down_x - up_x >= 4:
-            towin()
-            return
-        '''
+        if len(self.sequence_) == self.x_len * self.y_len :
+            self.over_ = True
+            self.winner_ = "None"
 
     def placeable(self, x, y):
         if self.over_ or x < 0 or y < 0 or x >= self.x_len or y >= self.y_len or self.board_[x, y] != 0:
@@ -79,7 +66,7 @@ class Gobang:
             return True
 
     def place(self, x, y):
-        if placeable(x, y) == False:
+        if self.placeable(x, y) == False:
             return False
         chess = self.who_should_place()
         if chess == "Black":
@@ -89,11 +76,14 @@ class Gobang:
         self.sequence_.append((x, y))
         self.board_[x, y] = chess
         self.check(x, y, chess)
+        # if self.over_ == True:
+            # print(self.board_)
+            # self.check(x, y,chess)
         return True
-'''
+    '''
     def place_indexfrom1(self, x, y):
         self.place(x-1, y-1)
-'''
+    '''
     def who_should_place(self):
         if len(self.sequence_) % 2 == 0:
             return "Black"
@@ -103,15 +93,17 @@ class Gobang:
     def print_board(self):
         print(self.board_)
 
-class GobangAI(Gobang):
+class GobangForAI(Gobang):
     def __init__(self,x,y):
         super().__init__(x,y)
-        self.board_white_ = self.board_ = np.zeros((x_len, y_len), dtype=int)
+        self.board_white_ = np.zeros((self.x_len,self.y_len), dtype=int)
     
     def place(self,x,y):
         if(super().place(x,y)):
             point = self.sequence_[-1]
-            self.board_white_[point[0],point[1]] = -1 * self.board_[point[0],point[1]]
+            if self.over_ == True:
+                a = 0
+            self.board_white_[point[0],point[1]] = self.board_[point[0],point[1]] * -1
             return True
         else:
             return False
