@@ -73,7 +73,7 @@ class Gobang:
             chess = 1
         else:
             chess = -1
-        self.sequence_.append((x, y))
+        self.sequence_.append([x, y])
         self.board_[x, y] = chess
         self.check(x, y, chess)
         # if self.over_ == True:
