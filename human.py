@@ -5,11 +5,11 @@ import RL.RLNet as RL
 import RL.DataCreate as DC
 import RL.DataLoader as DL
 import time
-from torchsummary import summary
+
 net = RL.RLNet()
 #print(net)
-train_times = 500
-borad_per_train = 10
+train_times = 5001
+borad_per_train = 50
 lr = 0.01
 epochs_num = 5
 dataCreator = DC.DataCreator()

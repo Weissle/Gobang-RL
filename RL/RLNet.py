@@ -17,13 +17,14 @@ class RLNet(nn.Module):
             nn.ReLU(),
             nn.Conv2d(64, 256, 3, padding=1),  # 256 * 9 * 9
             nn.ReLU(),
-            nn.Conv2d(256, 1024, 3),  # 1024 * 7 * 7
-            nn.ReLU(), 
-            nn.Conv2d(1024, 1024, 3),  # 1024 * 5 * 5
-            nn.ReLU(),
-            nn.Conv2d(1024, 1024, 3),  # 1024 * 3 * 3
-            nn.ReLU(),
-            nn.Conv2d(1024, 1024, 3),  # 1024 * 1 * 1
+            nn.MaxPool2d(3),
+            # nn.Conv2d(256, 1024, 3),  # 1024 * 7 * 7
+            # nn.ReLU(), 
+            # nn.Conv2d(1024, 1024, 3),  # 1024 * 5 * 5
+            # nn.ReLU(),
+            # nn.Conv2d(1024, 1024, 3),  # 1024 * 3 * 3
+            # nn.ReLU(),
+            nn.Conv2d(256, 1024, 3),  # 1024 * 1 * 1
             nn.ReLU(),
         )
         self.fc = nn.Sequential(
@@ -37,9 +38,11 @@ class RLNet(nn.Module):
 
     def forward(self, board):
         # print(board.shape)
+        self.eval()
         first_ = self.conv(board.float())
         first_ = first_.view(board.shape[0],-1)
         output = self.fc(first_)
+        self.train()
         return output
 @torch.no_grad()
 def test(net,board,device):

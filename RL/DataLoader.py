@@ -17,5 +17,5 @@ def getDataLoader(boards,places):
     mytransform = transforms.Compose([
         transforms.ToTensor()
     ])
-    loader = Data.DataLoader(dataset,batch_size=30,shuffle=True)
+    loader = Data.DataLoader(dataset,batch_size=50,shuffle=True)
     return loader
